@@ -18,30 +18,28 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *response;
 @property (weak, nonatomic) IBOutlet UITableView *List;
-
+@property (strong, atomic) NSMutableArray *ListOfNames;
 
 @end
 
-@implementation ViewController{
- NSMutableArray *ListOfNames;
-}
+@implementation ViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
- ListOfNames=[NSMutableArray new];
+ _ListOfNames=[NSMutableArray new];
     
 [[AFNetworkReachabilityManager sharedManager] startMonitoring];
  
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return [ListOfNames count];
+    return [_ListOfNames count];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
-    return [ListOfNames count];
+    return [_ListOfNames count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -53,7 +51,7 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:MyIdentifier];
     }
     /////////////////////////////////////////////ADDING RESULT TO TABLE
-    cell.textLabel.text =[[ListOfNames objectAtIndex:indexPath.row] objectForKey:@"lf"];
+    cell.textLabel.text =[[_ListOfNames objectAtIndex:indexPath.row] objectForKey:@"lf"];
     return cell;
 }
 -(void) RefershTable
@@ -114,9 +112,9 @@
 
 //handle the responsefrom server
 -(void)ResponseHandler:(NSArray *)Response{
-NSDictionary *dictObject = [Response objectAtIndex:0];
+NSDictionary *dictObject = Response.firstObject;
 NSMutableArray *NoOFLongform=dictObject[@"lfs"];
-    ListOfNames=NoOFLongform;
+    _ListOfNames=NoOFLongform;
     [self RefershTable];
 
 
