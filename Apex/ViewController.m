@@ -112,11 +112,15 @@
 
 //handle the responsefrom server
 -(void)ResponseHandler:(NSArray *)Response{
+if([Response count]==0)
+    {
+    NSLog(@"Empty");
+    }else{
 NSDictionary *dictObject = Response.firstObject;
 NSMutableArray *NoOFLongform=dictObject[@"lfs"];
     _ListOfNames=NoOFLongform;
     [self RefershTable];
-
+}
 
 }
 //closing the progress bar
